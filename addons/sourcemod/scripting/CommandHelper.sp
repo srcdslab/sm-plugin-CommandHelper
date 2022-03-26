@@ -4,7 +4,7 @@
 #include <sourcemod>
 #include <CCommandHelper>
 
-#define CONFIG_PATH					"configs/commandhelper.md"
+#define CONFIG_PATH					"configs/COMMANDHELPER.md"
 
 ArrayList g_aCommands = null;
 
@@ -274,8 +274,8 @@ stock void SaveCommandsDocumentation(const char[] sConfigPath = CONFIG_PATH)
 
     WriteFileLine(hFile, "");
 
-    WriteFileLine(hFile, "- [Admin commands](##admin-commands)");
-    WriteFileLine(hFile, "- [Server console commands](##server-console-commands)");
+    WriteFileLine(hFile, "- [Admin commands](#admin-commands)");
+    WriteFileLine(hFile, "- [Server console commands](#server-console-commands)");
 
     WriteFileLine(hFile, "");
 
