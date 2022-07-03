@@ -326,4 +326,5 @@ public int Handler_CMDmenu(Menu menu, MenuAction action, int client, int Positio
     {
         delete menu;
     }
+    return 0;
 }
