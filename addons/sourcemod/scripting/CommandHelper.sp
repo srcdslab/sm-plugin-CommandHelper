@@ -12,7 +12,7 @@ public Plugin myinfo ={
     name = "List SourceMod Commands",
     author = "denormal, shanapu, maxime1907",
     description = "Generate SourceMod command helpers.",
-    version = "1.2.0",
+    version = "1.2.1",
     url = ""
 };
 
@@ -48,7 +48,7 @@ stock bool LoadCommands()
 
     cvar = FindFirstConCommand(sCommand, sizeof(sCommand), isCommand, flags, sDescription, sizeof(sDescription));
 
-    if (cvar == INVALID_HANDLE)
+    if (cvar == null)
         return false;
 
     Handle commandIterator = GetCommandIterator();
@@ -104,12 +104,12 @@ stock bool LoadCommands()
     return true;
 }
 
-stock void WriteCommandHelper(Handle hFile, int cmdType)
+stock void WriteCommandHelper(File hFile, int cmdType)
 {
     if (cmdType == 0)
-        WriteFileLine(hFile, "## Admin commands");
+        hFile.WriteLine("## Admin commands");
     else
-        WriteFileLine(hFile, "## Server console commands");
+        hFile.WriteLine("## Server console commands");
 
     for (int i = 0; i < g_aCommands.Length; i++)
     {
@@ -131,21 +131,21 @@ stock void WriteCommandHelper(Handle hFile, int cmdType)
         if (cmdType == 1 && flagCount > 0)
             continue;
 
-        WriteFileLine(hFile, "### %s", sCommand);
+        hFile.WriteLine("### %s", sCommand);
 
         if (sDescription[0] == '\0')
         {
             sDescription = "No description set, ask a plugin maintainer to add it!";
         }
-        WriteFileLine(hFile, "#### Description");
-        WriteFileLine(hFile, "");
-        WriteFileLine(hFile, "%s", sDescription);
-        WriteFileLine(hFile, "");
+        hFile.WriteLine("#### Description");
+        hFile.WriteLine("");
+        hFile.WriteLine("%s", sDescription);
+        hFile.WriteLine("");
 
         if (flagCount > 0)
         {
-            WriteFileLine(hFile, "#### Flags");
-            WriteFileLine(hFile, "");
+            hFile.WriteLine("#### Flags");
+            hFile.WriteLine("");
         }
 
         for (int j = 0; j < flagCount; j++)
@@ -242,8 +242,8 @@ stock void WriteCommandHelper(Handle hFile, int cmdType)
 
             if (sFlag[0] != '\0')
             {
-                WriteFileLine(hFile, "%s\n", sFlag);
-                WriteFileLine(hFile, "");
+                hFile.WriteLine("%s\n", sFlag);
+                hFile.WriteLine("");
             }
         }
     }
@@ -254,9 +254,9 @@ stock void SaveCommandsDocumentation(const char[] sConfigPath = CONFIG_PATH)
     char sFile[PLATFORM_MAX_PATH];
     BuildPath(Path_SM, sFile, sizeof(sFile), sConfigPath);
 
-    Handle hFile = OpenFile(sFile, "w");
+    File hFile = OpenFile(sFile, "w");
 
-    if (hFile == INVALID_HANDLE)
+    if (hFile == null)
     {
         SetFailState("Could not create %s", sFile);
         return;
@@ -266,30 +266,30 @@ stock void SaveCommandsDocumentation(const char[] sConfigPath = CONFIG_PATH)
     int iTime = GetTime();
     FormatTime(sTime, sizeof(sTime), "%m/%d/%Y @ %H:%M:%S", iTime);
 
-    WriteFileLine(hFile, "# CommandHelper");
+    hFile.WriteLine("# CommandHelper");
 
-    WriteFileLine(hFile, "");
+    hFile.WriteLine("");
 
-    WriteFileLine(hFile, "Auto-Generated documentation for sourcemod commands - %s", sTime);
+    hFile.WriteLine("Auto-Generated documentation for sourcemod commands - %s", sTime);
 
-    WriteFileLine(hFile, "");
+    hFile.WriteLine("");
 
-    WriteFileLine(hFile, "- [Admin commands](#admin-commands)");
-    WriteFileLine(hFile, "- [Server console commands](#server-console-commands)");
+    hFile.WriteLine("- [Admin commands](#admin-commands)");
+    hFile.WriteLine("- [Server console commands](#server-console-commands)");
 
-    WriteFileLine(hFile, "");
+    hFile.WriteLine("");
 
     // Admin commands
     WriteCommandHelper(hFile, 0);
     // Server/Console commands
     WriteCommandHelper(hFile, 1);
 
-    CloseHandle(hFile);
+    delete hFile;
 }
 
 public Action Command_listcmd(int client,int args)
 {
-    Menu menu = CreateMenu(Handler_CMDmenu);
+    Menu menu = new Menu(Handler_CMDmenu);
     menu.SetTitle("Commands");
 
     for (int i = 0; i < g_aCommands.Length; i++)
