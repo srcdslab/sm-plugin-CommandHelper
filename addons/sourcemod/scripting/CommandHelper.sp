@@ -12,7 +12,7 @@ public Plugin myinfo ={
     name = "List SourceMod Commands",
     author = "denormal, shanapu, maxime1907",
     description = "Generate SourceMod command helpers.",
-    version = "1.2.2",
+    version = "1.2.3",
     url = ""
 };
 
@@ -318,11 +318,11 @@ public int Handler_CMDmenu(Menu menu, MenuAction action, int client, int Positio
 {
     if (action == MenuAction_Select)
     {
-        char command[32];
+        char command[64];
         
         menu.GetItem(Position, command, sizeof(command));
         
-        FakeClientCommand(client, command);
+        FakeClientCommand(client, "%s", command);
     }
     else if (action == MenuAction_End)
     {
