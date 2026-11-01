@@ -1,0 +1,13 @@
+"Phrases"
+{
+	"Commands Menu Title"
+	{
+		"en"		"Commands"
+		"fr"		"Commandes"
+		"ru"		"Команды"
+		"es"		"Comandos"
+		"de"		"Befehle"
+		"pt"		"Comandos"
+		"chi"		"命令"
+	}
+}

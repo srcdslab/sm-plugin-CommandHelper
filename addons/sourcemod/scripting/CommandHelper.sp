@@ -12,12 +12,14 @@ public Plugin myinfo ={
     name = "List SourceMod Commands",
     author = "denormal, shanapu, maxime1907",
     description = "Generate SourceMod command helpers.",
-    version = "1.2.1",
+    version = "1.2.2",
     url = ""
 };
 
 public void OnPluginStart()
 {
+    LoadTranslations("CommandHelper.phrases");
+
     RegConsoleCmd("sm_listcmd", Command_listcmd, "Open this commands menu");
 }
 
@@ -290,7 +292,7 @@ stock void SaveCommandsDocumentation(const char[] sConfigPath = CONFIG_PATH)
 public Action Command_listcmd(int client,int args)
 {
     Menu menu = new Menu(Handler_CMDmenu);
-    menu.SetTitle("Commands");
+    menu.SetTitle("%T", "Commands Menu Title", client);
 
     for (int i = 0; i < g_aCommands.Length; i++)
     {
