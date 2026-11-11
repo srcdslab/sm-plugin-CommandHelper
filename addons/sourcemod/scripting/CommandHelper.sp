@@ -12,7 +12,7 @@ public Plugin myinfo ={
     name = "List SourceMod Commands",
     author = "denormal, shanapu, maxime1907",
     description = "Generate SourceMod command helpers.",
-    version = "1.2.3",
+    version = "1.2.4",
     url = ""
 };
 
